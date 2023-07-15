@@ -57,11 +57,10 @@ export class Result<T>
 			return Result.Fail<TOut>(this.Error());
 		}
 		const funcResult: TOut | Result<TOut> = func(this.Data());
-		const finalResult = funcResult as Result<TOut>
-		if (finalResult.Data === undefined) {
-			return Result.Ok<TOut>(funcResult as TOut);
+		if (funcResult instanceof Result) {
+			return funcResult;
 		}
-		return finalResult;
+		return Result.Unknown<TOut>(funcResult as TOut, new UnknownError());
 	}
 
 	public UseData(action: (data: T) => void): Result<T> {
@@ -93,6 +92,16 @@ export class Result<T>
 			return SimpleResult.Ok();
 		}
 		return SimpleResult.Fail(this._error);
+	}
+}
+
+export class UnknownError implements IError {
+	private _message: string = "An unknown error has occured";
+	public GetMessage(): string {
+		return this._message;
+	}
+	public Log(): void {
+		console.log(this._message);
 	}
 }
 
