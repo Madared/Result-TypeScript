@@ -1,6 +1,6 @@
-import { IError, Result } from "./Result";
+import { IError, NonVoid, Result } from "./Result";
 
-export class Option<T> {
+export class Option<T extends NonVoid> {
 	private _data: T | undefined;
 
 	private constructor(data: T | undefined) {
@@ -15,17 +15,17 @@ export class Option<T> {
 		return this._data === undefined;
 	}
 
-	public static Some<T>(data: T): Option<T> {
+	public static Some<T extends NonVoid>(data: T): Option<T> {
 		return new Option(data);
 	}
-	public static None<T>(): Option<T> {
+	public static None<T extends NonVoid>(): Option<T> {
 		return new Option<T>(undefined);
 	}
-	public static Maybe<T>(data: T | undefined): Option<T> {
-		return new Option<T>(data)
+	public static Maybe<T extends NonVoid>(data: T | undefined | null): Option<T> {
+		return new Option<T>(data ?? undefined)
 	}
 
-	public Map<TOut>(func: (data: T) => TOut | Option<TOut>): Option<TOut> {
+	public Map<TOut extends NonVoid>(func: (data: T) => TOut | Option<TOut>): Option<TOut> {
 		if (this._data === undefined) {
 			return Option.None<TOut>();
 		}

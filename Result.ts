@@ -1,4 +1,4 @@
-type NonVoid = number | string | boolean | null | undefined | symbol | bigint | object;
+export type NonVoid = number | string | boolean | null | undefined | symbol | bigint | object;
 
 export class Result<T extends NonVoid>
 {
