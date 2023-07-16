@@ -1,4 +1,7 @@
-export class Result<T>
+type voidConstraint<T  extends object | string | number | boolean | symbol | undefined | null | bigint> = {}
+
+
+export class Result<T extends voidConstraint<T>>
 {
 	private _data: T | undefined;
 	private _error: IError | undefined;
@@ -36,15 +39,15 @@ export class Result<T>
 		return this._error;
 	}
 
-	public static Ok<T>(data: T): Result<T> {
+	public static Ok<T extends voidConstraint<T>>(data: T): Result<T> {
 		return new Result(data, undefined);
 	}
 
-	public static Fail<T>(error: IError): Result<T> {
+	public static Fail<T extends voidConstraint<T>>(error: IError): Result<T> {
 		return new Result<T>(undefined, error);
 	}
 
-	public static Unknown<T>(data: T | undefined, error: IError) {
+	public static Unknown<T extends voidConstraint<T>>(data: T | undefined, error: IError) {
 		if (data === undefined) {
 			return Result.Fail<T>(error);
 		}
@@ -52,7 +55,7 @@ export class Result<T>
 	}
 
 
-	public Map<TOut>(func: (data: T) => Result<TOut> | TOut): Result<TOut> {
+	public Map<TOut extends voidConstraint<TOut>>(func: (data: T) => Result<TOut> | TOut): Result<TOut>  {
 		if (this._failed) {
 			return Result.Fail<TOut>(this.Error());
 		}
@@ -143,3 +146,4 @@ export interface IError {
 	GetMessage(): string;
 	Log(): void;
 }
+
