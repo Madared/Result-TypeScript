@@ -1,13 +1,15 @@
+import { Option } from "./Option";
+
 export type NonVoid = number | string | boolean | symbol | bigint | object;
 
 export class Result<T extends NonVoid>
 {
-	private _data: T | undefined;
+	private _data: Option<T>
 	private _error: IError | undefined;
 	private _failed: boolean;
 
 
-	constructor(data: T | undefined, error: IError | undefined) {
+	constructor(data: Option<T>, error: IError | undefined) {
 		this._data = data;
 		this._error = error;
 		if (data === undefined) {
@@ -25,10 +27,7 @@ export class Result<T extends NonVoid>
 	}
 
 	public Data(): T {
-		if (this._data === undefined) {
-			throw new Error("Cannot check data in failed result");
-		}
-		return this._data;
+		return this._data.Data();
 	}
 
 	public Error(): IError {
@@ -39,11 +38,11 @@ export class Result<T extends NonVoid>
 	}
 
 	public static Ok<T extends NonVoid>(data: T): Result<T> {
-		return new Result(data, undefined);
+		return new Result(Option.Some(data), undefined);
 	}
 
 	public static Fail<T extends NonVoid>(error: IError): Result<T> {
-		return new Result<T>(undefined, error);
+		return new Result<T>(Option.None(), error);
 	}
 
 	public static Unknown<T extends NonVoid>(data: T | undefined, error: IError) {

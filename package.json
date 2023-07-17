@@ -1,0 +1,24 @@
+{
+  "name": "result",
+  "version": "1.0.0",
+  "description": "A result type to handle Failures in methods without throwing Errors.",
+  "main": "Result.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madared/Result-TypeScript.git"
+  },
+  "keywords": [
+    "Result",
+    "Error",
+    "Mappable"
+  ],
+  "author": "Afonso Matos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Madared/Result-TypeScript/issues"
+  },
+  "homepage": "https://github.com/Madared/Result-TypeScript#readme"
+}

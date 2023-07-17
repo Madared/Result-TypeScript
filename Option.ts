@@ -15,6 +15,13 @@ export class Option<T extends NonVoid> {
 		return this._data === undefined;
 	}
 
+	public Data(): T {
+		if (this._data === undefined) {
+			throw new Error("Cannot get data from empty option");
+		}
+		return this._data;
+	}
+
 	public static Some<T extends NonVoid>(data: T): Option<T> {
 		return new Option(data);
 	}
